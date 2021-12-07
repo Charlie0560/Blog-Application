@@ -1,40 +1,32 @@
+import { Link } from "react-router-dom";
 import "./post.css";
 
-export default function Post() {
+export default function Post({ img, post }) {
+  const PF = "http://localhost:5000/images/"
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src="https://media.istockphoto.com/photos/road-in-mountains-picture-id491712724?s=612x612"
-        alt=""
-      />
+      {post.photo && <img className="postImg" src={PF + post.photo} alt="" />}
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">Music</span>
-          <span className="postCat">Life</span>
+          {post.categories.map((c) => (
+            <span className="postCat">{c.music}</span>
+          ))}
+          <Link to={`/post/${post._id}`}>
+            <span className="postTitle">{post.title}</span>
+          </Link>
+          <span className="postCat">
+            <Link className="link" to="/posts?cat=Music">
+              Life
+            </Link>
+          </span>
         </div>
-        <span className="postTitle">Lorem ipsum dolor</span>
+
         <hr />
-        <span className="postDate">1 hour ago</span>
+        <span className="postDate">
+          {new Date(post.createdAt).toDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-        recusandae optio atque temporibus unde excepturi suscipit aliquam,
-        deleniti alias dolore. Neque, nam culpa commodi accusamus numquam
-        facilis deleniti tempora eveniet?
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-        recusandae optio atque temporibus unde excepturi suscipit aliquam,
-        deleniti alias dolore. Neque, nam culpa commodi accusamus numquam
-        facilis deleniti tempora eveniet?
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-        recusandae optio atque temporibus unde excepturi suscipit aliquam,
-        deleniti alias dolore. Neque, nam culpa commodi accusamus numquam
-        facilis deleniti tempora eveniet?
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-        recusandae optio atque temporibus unde excepturi suscipit aliquam,
-        deleniti alias dolore. Neque, nam culpa commodi accusamus numquam
-        facilis deleniti tempora eveniet?
-      </p>
+      <p className="postDesc">{post.desc}</p>
     </div>
   );
 }
